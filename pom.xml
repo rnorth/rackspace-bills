@@ -27,7 +27,7 @@
 		</dependency>
 	</dependencies>
 	<properties>
-		<selenium.version>2.6.0</selenium.version>
+		<selenium.version>2.17.0</selenium.version>
 	</properties>
 
 	<build>

@@ -1,8 +1,10 @@
 package com.github.rnorth.rackspacebills;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -20,13 +22,17 @@ public class BillsExtractor {
 	 */
 	public static void main(String[] args) throws IOException {
 		
-		String outputDirectoryPath = args[0];
+		File propertiesFile = new File(args[0]);
+		Properties properties = new Properties();
+		properties.load(new FileInputStream(propertiesFile));
+		
+		String username = properties.getProperty("username");
+		String password = properties.getProperty("password");
+		String url = properties.getProperty("url");
+		BigDecimal taxRate = new BigDecimal(properties.getProperty("taxRate", "1"));
+		String outputDirectoryPath = properties.getProperty("output.directory");
 		File outputDirectory = new File(outputDirectoryPath);
 		outputDirectory.mkdirs();
-		String username = args[1];
-		String password = args[2];
-		String url = args[3];
-		BigDecimal taxRate = args.length>4 ? new BigDecimal(args[4]) : new BigDecimal("1");
 		
 		WebDriver driver = new FirefoxDriver();
 		driver.get(url);
